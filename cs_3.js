@@ -1,8 +1,8 @@
 // Task 1: Create a Function to Calculate Average Sales
 
-function calculateAverageSales(sales) {
-    let totalSales = sales.reduce((sum, sale) => sum + sale);
-    return totalSales / sales.length;
+function calculateAverageSales(salesData) {
+    let totalSales = salesData.reduce((sum, sale) => sum + sale);
+    return totalSales / salesData.length;
 }
 
 
@@ -26,7 +26,7 @@ function determinePerformanceRating(averageSales) {
 // Task 3: Create a Function to Identify Top and Bottom Performers
 
 function findTopAndBottomPerformers(salesData) {
-    let totalSalesArray = salesData.map(name => name.totalSales);
+    let totalSalesArray = salesData.map(person => person.totalSales);
 
     let maxSales = Math.max(...totalSalesArray);
     let minSales = Math.min(...totalSalesArray);
@@ -39,5 +39,32 @@ function findTopAndBottomPerformers(salesData) {
 
 // Helper function to help find the top and bottom performers
 function helperSales(salesData, performance) {
-    return salesData.find(name => name.totalSales === performance);
+    return salesData.find(person => person.totalSales === performance);
+}
+
+
+
+// Task 4: Combine Functions to Generate a Performance Report
+
+function generatePerformanceReport(salesData) {
+    const report = salesData.map(person => {
+        const averageSales = calculateAverageSales(person.sales);
+        const performanceRating = determinePerformanceRating(averageSales);
+        return {
+            name: person.name,
+            averageSales,
+            performanceRating
+        };
+    });
+
+    // Combine with top and bottom performance function
+    const topAndBottomPerformers = findTopAndBottomPerformers(
+        report.map(person => ({ name: person.name, totalSales: person.averageSales }))
+    );
+
+    return {
+        salesSummary: report,
+        topPerformer: topAndBottomPerformers.topPerformer,
+        bottomPerformer: topAndBottomPerformers.bottomPerformer
+    };
 }
