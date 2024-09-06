@@ -20,3 +20,24 @@ function determinePerformanceRating(averageSales) {
         return "Needs Improvement";
     }
 }
+
+
+
+// Task 3: Create a Function to Identify Top and Bottom Performers
+
+function findTopAndBottomPerformers(salesData) {
+    let totalSalesArray = salesData.map(name => name.totalSales);
+
+    let maxSales = Math.max(...totalSalesArray);
+    let minSales = Math.min(...totalSalesArray);
+
+    let topPerformer = helperSales(salesData, maxSales);
+    let bottomPerformer = helperSales(salesData, minSales);
+
+    return { topPerformer, bottomPerformer };
+}
+
+// Helper function to help find the top and bottom performers
+function helperSales(salesData, performance) {
+    return salesData.find(name => name.totalSales === performance);
+}
